@@ -9,6 +9,9 @@ import com.service.factory.TxnSequenceService;
 import com.service.factory.WithDrawTransactionFactory;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
@@ -26,7 +29,7 @@ class TransactionFactoryTest {
 
         Transaction tx = factory.create(TransactionType.DEPOSIT,"ACC001", 500);
 
-        assertEquals("TXN-20251123-101", tx.getTransactionId());
+        assertEquals("TXN-"+LocalDate.now().toString().replace("-", "")+"-101", tx.getTransactionId());
         assertEquals("ACC001", tx.getSourceAccountId());
         assertEquals(500, tx.getAmount());
         assertEquals(TransactionType.DEPOSIT, tx.getType());
@@ -42,7 +45,7 @@ class TransactionFactoryTest {
 
         Transaction tx = factory.create(TransactionType.WITHDRAW,"ACC002", 300);
 
-        assertEquals("TXN-20251123-202", tx.getTransactionId());
+        assertEquals("TXN-"+ LocalDate.now().toString().replace("-", "")+"-202", tx.getTransactionId());
         assertEquals("ACC002", tx.getSourceAccountId());
         assertEquals(300, tx.getAmount());
         assertEquals(TransactionType.WITHDRAW, tx.getType());
@@ -58,7 +61,7 @@ class TransactionFactoryTest {
 
         Transaction tx = factory.create(TransactionType.TRANSFER,"SRC123", "DST456", 700);
 
-        assertEquals("TXN-20251123-303", tx.getTransactionId());
+        assertEquals("TXN-"+LocalDate.now().toString().replace("-", "")+"-303", tx.getTransactionId());
         assertEquals("SRC123", tx.getSourceAccountId());
         assertEquals("DST456", tx.getDestinationAccountId());
         assertEquals(700, tx.getAmount());

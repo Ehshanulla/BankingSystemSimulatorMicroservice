@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 @Service
@@ -14,7 +16,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 
 
-    List<String> transactionNotifications = new ArrayList<>();;
+    Queue<String> transactionNotifications = new ConcurrentLinkedQueue<>();;
 
     @Override
     @KafkaListener(topics = "notification-service",
@@ -31,7 +33,7 @@ public class NotificationServiceImpl implements NotificationService {
         }else transactionNotifications.add("Transaction failed");
     }
 
-    public List<String> getNotifications(){
+    public Queue<String> getNotifications(){
         return transactionNotifications;
     }
 
