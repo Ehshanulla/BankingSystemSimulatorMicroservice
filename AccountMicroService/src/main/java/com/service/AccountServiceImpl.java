@@ -46,6 +46,21 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Account updateAccountBalance(String id, double balance) {
+
+        Account existing = accountRepo.findByAccountNumber(id)
+                .orElseThrow(() -> new AccountNotFoundException("Account not found"));
+
+        if (!existing.getStatus().equals("ACTIVE")) {
+            throw new RuntimeException("Account is not active");
+        }
+
+        existing.setBalance(balance);
+
+        return accountRepo.save(existing);
+    }
+
+    @Override
     public Account updateAccount(Account account) {
 
         Account existing = accountRepo.findByAccountNumber(account.getAccountNumber())
@@ -71,12 +86,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
+
     @Override
     public boolean deleteAccount(String accountNumber) {
         Optional<Account> acc = accountRepo.findByAccountNumber(accountNumber);
         if(acc.isPresent()){
             Account accFromDB = acc.get();
-            accFromDB.setHolderName(null);
             accFromDB.setStatus("INACTIVE");
             accFromDB.setBalance(0);
             accountRepo.save(accFromDB);

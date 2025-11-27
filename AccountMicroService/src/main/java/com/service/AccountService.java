@@ -12,6 +12,7 @@ public interface AccountService {
     Account createAccount(String name);
     Account getAccount(String accountNumber);
     List<Transaction> getAllTransactions(String accountId);
+    Account updateAccountBalance(String accountNumber, double balance);
     Account updateAccount(Account account);
     boolean deleteAccount(String accountNumber);
 }

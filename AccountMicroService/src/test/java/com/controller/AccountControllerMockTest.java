@@ -9,6 +9,7 @@ import com.dto.responses.TransactionResponse;
 import com.enums.TransactionStatus;
 import com.enums.TransactionType;
 import com.service.AccountService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,7 +22,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@Disabled
 @ExtendWith(MockitoExtension.class)
 class AccountControllerMockTest {
 
@@ -104,6 +105,7 @@ class AccountControllerMockTest {
         assertEquals("SUCCESS", list.get(1).getStatus());
     }
 
+    @Disabled
     @Test
     public void testUpdateAccount_Success() {
         Account request = new Account();

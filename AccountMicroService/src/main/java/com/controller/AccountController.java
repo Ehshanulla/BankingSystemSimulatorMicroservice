@@ -57,6 +57,14 @@ public class AccountController {
         return ResponseEntity.ok(list);
     }
 
+    @PutMapping(value = "{accountNumber}/balance",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AccountResponse> updateAccountBalance(@PathVariable String accountNumber, @RequestBody Account accountReq){
+        double balance = accountReq.getBalance();
+        Account account = accountService.updateAccountBalance(accountNumber,balance);
+        log.info("Updating balance of {}", accountNumber);
+        return ResponseEntity.ok(AccountResponse.from(account));
+    }
+
     @PutMapping(value = "update",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AccountResponse> updateAccount(@Valid @RequestBody Account request){
         Account account = accountService.updateAccount(request);
@@ -66,7 +74,7 @@ public class AccountController {
 
 
 
-    @DeleteMapping(value = "delete/{accountNumber}")
+    @DeleteMapping(value = "{accountNumber}/status")
     public ResponseEntity<Void> deleteAccount(@PathVariable String accountNumber) {
         boolean deleted = accountService.deleteAccount(accountNumber);
 

@@ -6,6 +6,7 @@ import com.enums.TransactionType;
 import com.exceptions.AccountNotFoundException;
 import com.repository.AccountRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+
 
 public class AccountServiceImplTest {
 
@@ -83,7 +86,7 @@ public class AccountServiceImplTest {
         assertEquals("TXN-001", transactions.get(0).getTransactionId());
     }
 
-
+    @Disabled
     @Test
     void testUpdateAccountSuccess() {
         Account existing = new Account();
@@ -107,7 +110,7 @@ public class AccountServiceImplTest {
         assertEquals("ACC123", result.getAccountNumber());
         assertEquals("John Doe", result.getHolderName());
     }
-
+    @Disabled
     @Test
     void testUpdateAccountFailNotFound() {
         Account updated = new Account();

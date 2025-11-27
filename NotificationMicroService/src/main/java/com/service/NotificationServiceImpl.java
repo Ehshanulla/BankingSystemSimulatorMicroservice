@@ -30,7 +30,12 @@ public class NotificationServiceImpl implements NotificationService {
             }else{
                 transactionNotifications.add("Amount has been transferred from your account "+tn.getSourceAccountId() +" to "+tn.getDestAccountId());
             }
-        }else transactionNotifications.add("Transaction failed");
+        }else {
+            transactionNotifications.add("Transaction failed for "+tn.getSourceAccountId());
+            if(tn.getType().equals("TRANSFER")){
+                transactionNotifications.add("Transaction failed for "+tn.getDestAccountId());
+            }
+        }
     }
 
     public Queue<String> getNotifications(){

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Queue;
 
 @RestController
-@RequestMapping("/api/notifications")
+@RequestMapping("/api/notifications/")
 public class NotificationController {
 
     private final NotificationServiceImpl notificationService;
@@ -19,7 +19,7 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
 
-    @GetMapping(value = "")
+    @GetMapping(value = "send")
     public ResponseEntity<Queue<String>>  getnotification(){
         return ResponseEntity.ok(notificationService.getNotifications());
     }
