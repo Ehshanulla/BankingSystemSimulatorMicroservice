@@ -26,7 +26,7 @@ public class NotificationServiceImpl implements NotificationService {
             if(tn.getType().equals("DEPOSIT")){
                 transactionNotifications.add(tn.getAmount() +" Amount has been credited to your account "+"Account number is "+tn.getSourceAccountId());
             } else if (tn.getType().equals("WITHDRAW")) {
-                transactionNotifications.add(tn.getAmount() +" Amount has been debited from your account \n"+ "Account number is "+tn.getSourceAccountId());
+                transactionNotifications.add(tn.getAmount() +" Amount has been debited from your account "+ "Account number is "+tn.getSourceAccountId());
             }else{
                 transactionNotifications.add("Amount has been transferred from your account "+tn.getSourceAccountId() +" to "+tn.getDestAccountId());
             }
