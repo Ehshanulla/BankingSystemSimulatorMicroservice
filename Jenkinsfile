@@ -15,7 +15,6 @@ pipeline {
         stage('Maven Build (Skip Tests)') {
             steps {
                 script {
-                    // Run MVN clean package inside each microservice folder
                     def repos = [
                         "Eureka",
                         "API-Gateway",
@@ -61,27 +60,29 @@ pipeline {
 
         stage('Push Images to DockerHub') {
             steps {
-                        def images = [
-                            "bank-eureka-server",
-                            "bank-api-gateway",
-                            "bank-account-micro-service",
-                            "bank-transactions-micro-service",
-                            "bank-notificaion-micro-service"
-                        ]
+                script {
+                    def images = [
+                        "bank-eureka-server",
+                        "bank-api-gateway",
+                        "bank-account-micro-service",
+                        "bank-transactions-micro-service",
+                        "bank-notification-micro-service" // fixed typo
+                    ]
 
-                        images.each { img ->
-                            def imageFull = "${DOCKERHUB_USER}/${img}:${VERSION}"
-                            bat "docker push ${imageFull}"
-                        }
-
-                        bat "docker logout"
+                    images.each { img ->
+                        def imageFull = "${DOCKERHUB_USER}/${img}:${VERSION}"
+                        bat "docker push ${imageFull}"
                     }
+
+                    bat "docker logout"
                 }
+            }
+        }
+    }
 
     post {
         success {
             echo "All images built & pushed successfully!"
         }
     }
-}
 }
