@@ -12,6 +12,29 @@ pipeline {
             steps { checkout scm }
         }
 
+        stage('Maven Build (Skip Tests)') {
+            steps {
+                script {
+                    // Run MVN clean package inside each microservice folder
+                    def services = [
+                        "bank-eureka-server",
+                        "bank-api-gateway",
+                        "bank-account-micro-service",
+                        "bank-transactions-micro-service",
+                        "bank-notificaion-micro-service"
+                    ]
+
+                    services.each { svc ->
+                        bat """
+                        cd ${svc}
+                        mvn clean package -DskipTests
+                        cd ..
+                        """
+                    }
+                }
+            }
+        }
+
         stage('Update .env') {
             steps {
                 writeFile file: '.env', text: "VERSION=${VERSION}"
