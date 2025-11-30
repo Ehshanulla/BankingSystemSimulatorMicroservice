@@ -1,12 +1,10 @@
+version: "3.8"
 
 networks:
   microservices-net:
 
 services:
 
-  # ===============================
-  # ZOOKEEPER
-  # ===============================
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
@@ -17,9 +15,6 @@ services:
     networks:
       - microservices-net
 
-  # ===============================
-  # KAFKA
-  # ===============================
   kafka:
     image: confluentinc/cp-kafka:latest
     container_name: kafka
@@ -36,11 +31,11 @@ services:
     networks:
       - microservices-net
 
-  # ===============================
+  # ======================================
   # EUREKA SERVER
-  # ===============================
+  # ======================================
   eureka-server:
-    build: ./Eureka/.
+    image: ehshanulla/bank-eureka-server:${VERSION}
     container_name: eureka-server
     ports:
       - "8761:8761"
@@ -48,11 +43,11 @@ services:
     networks:
       - microservices-net
 
-  # ===============================
+  # ======================================
   # API GATEWAY
-  # ===============================
+  # ======================================
   api-gateway:
-    build: ./API-Gateway
+    image: ehshanulla/bank-api-gateway:${VERSION}
     container_name: api-gateway
     ports:
       - "8080:8080"
@@ -64,11 +59,11 @@ services:
     networks:
       - microservices-net
 
-  # ===============================
-  # ACCOUNT MICROSERVICE
-  # ===============================
+  # ======================================
+  # ACCOUNT SERVICE
+  # ======================================
   account-micro-service:
-    build: ./AccountMicroService
+    image: ehshanulla/bank-account-micro-service:${VERSION}
     container_name: account-micro-service
     ports:
       - "8081:8081"
@@ -96,11 +91,11 @@ services:
     networks:
       - microservices-net
 
-  # ===============================
-  # TRANSACTIONS MICROSERVICE
-  # ===============================
+  # ======================================
+  # TRANSACTIONS SERVICE
+  # ======================================
   transactions-micro-service:
-    build: ./TransactionsMicroService
+    image: ehshanulla/bank-transactions-micro-service:${VERSION}
     container_name: transactions-micro-service
     ports:
       - "8082:8082"
@@ -130,11 +125,11 @@ services:
     networks:
       - microservices-net
 
-  # ===============================
-  # NOTIFICATION MICROSERVICE
-  # ===============================
+  # ======================================
+  # NOTIFICATION SERVICE
+  # ======================================
   notification-micro-service:
-    build: ./NotificationMicroService
+    image: ehshanulla/bank-notificaion-micro-service:${VERSION}
     container_name: notification-micro-service
     ports:
       - "8083:8083"
