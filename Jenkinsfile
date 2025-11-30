@@ -24,9 +24,9 @@ pipeline {
                         "NotificationMicroService"
                     ]
 
-                    services.each { svc ->
+                    services.each { repo ->
                         bat """
-                        cd ${svc}
+                        cd ${repo}
                         mvn clean package -DskipTests
                         cd ..
                         """
