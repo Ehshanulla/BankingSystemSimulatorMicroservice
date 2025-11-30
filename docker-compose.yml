@@ -35,6 +35,7 @@ services:
   # EUREKA SERVER
   # ======================================
   eureka-server:
+    build: ./Eureka          # <-- FIX ADDED
     image: ehshanulla/bank-eureka-server:${VERSION}
     container_name: eureka-server
     ports:
@@ -47,6 +48,7 @@ services:
   # API GATEWAY
   # ======================================
   api-gateway:
+    build: ./API-Gateway     # <-- FIX ADDED
     image: ehshanulla/bank-api-gateway:${VERSION}
     container_name: api-gateway
     ports:
@@ -63,6 +65,7 @@ services:
   # ACCOUNT SERVICE
   # ======================================
   account-micro-service:
+    build: ./AccountMicroService     # <-- FIX ADDED
     image: ehshanulla/bank-account-micro-service:${VERSION}
     container_name: account-micro-service
     ports:
@@ -95,6 +98,7 @@ services:
   # TRANSACTIONS SERVICE
   # ======================================
   transactions-micro-service:
+    build: ./TransactionsMicroService    # <-- FIX ADDED
     image: ehshanulla/bank-transactions-micro-service:${VERSION}
     container_name: transactions-micro-service
     ports:
@@ -129,6 +133,7 @@ services:
   # NOTIFICATION SERVICE
   # ======================================
   notification-micro-service:
+    build: ./NotificationMicroService   # <-- FIX ADDED
     image: ehshanulla/bank-notificaion-micro-service:${VERSION}
     container_name: notification-micro-service
     ports:
