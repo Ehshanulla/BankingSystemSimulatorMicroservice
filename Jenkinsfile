@@ -35,6 +35,18 @@ pipeline {
             }
         }
 
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'docker-hub-creds',
+                    usernameVariable: 'USER',
+                    passwordVariable: 'PASS'
+                )]) {
+                    bat """echo %PASS% | docker login -u %USER% --password-stdin"""
+                }
+            }
+        }
+
         stage('Update .env') {
             steps {
                 writeFile file: '.env', text: "VERSION=${VERSION}"
@@ -49,15 +61,6 @@ pipeline {
 
         stage('Push Images to DockerHub') {
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'docker-hub-creds',
-                    usernameVariable: 'USER',
-                    passwordVariable: 'PASS'
-                )]) {
-                    script {
-
-                        bat """echo %PASS% | docker login -u %USER% --password-stdin"""
-
                         def images = [
                             "bank-eureka-server",
                             "bank-api-gateway",
@@ -74,9 +77,6 @@ pipeline {
                         bat "docker logout"
                     }
                 }
-            }
-        }
-    }
 
     post {
         success {
