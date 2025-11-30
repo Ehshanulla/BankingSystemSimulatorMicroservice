@@ -14,6 +14,28 @@ pipeline {
             }
         }
 
+        stage('Build Docker Images') {
+            steps {
+                script {
+                    def images = [
+                        "bank-eureka-server",
+                        "bank-api-gateway",
+                        "bank-account-micro-service",
+                        "bank-transactions-micro-service",
+                        "bank-notificaion-micro-service"
+                    ]
+
+                    images.each { name ->
+                        def imageFull = "${DOCKERHUB_USER}/${name}:${VERSION}"
+
+                        bat """
+                            docker build -t ${imageFull} ./${name}
+                        """
+                    }
+                }
+            }
+        }
+
         stage('Push Images') {
             steps {
                 withCredentials([usernamePassword(
@@ -22,6 +44,7 @@ pipeline {
                     passwordVariable: 'PASS'
                 )]) {
                     script {
+
                         bat """echo %PASS% | docker login -u %USER% --password-stdin"""
 
                         def images = [
@@ -34,7 +57,8 @@ pipeline {
 
                         images.each { name ->
                             def imageFull = "${DOCKERHUB_USER}/${name}:${VERSION}"
-                            bat "docker push ${imageFull} || echo Image already exists"
+
+                            bat "docker push ${imageFull}"
                         }
 
                         bat "docker logout"
