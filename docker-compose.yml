@@ -134,7 +134,7 @@ services:
   # ======================================
   notification-micro-service:
     build: ./NotificationMicroService   # <-- FIX ADDED
-    image: ehshanulla/bank-notificaion-micro-service:${VERSION}
+    image: ehshanulla/bank-notification-micro-service:${VERSION}
     container_name: notification-micro-service
     ports:
       - "8083:8083"
