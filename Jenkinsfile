@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     // Run MVN clean package inside each microservice folder
-                    def repo = [
+                    def repos = [
                         "Eureka",
                         "API-Gateway",
                         "AccountMicroService",
@@ -24,9 +24,9 @@ pipeline {
                         "NotificationMicroService"
                     ]
 
-                    services.each { repo ->
+                    repos.each { folder ->
                         bat """
-                        cd ${repo}
+                        cd ${folder}
                         mvn clean package -DskipTests
                         cd ..
                         """
