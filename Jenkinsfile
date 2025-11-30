@@ -16,12 +16,12 @@ pipeline {
             steps {
                 script {
                     // Run MVN clean package inside each microservice folder
-                    def services = [
-                        "bank-eureka-server",
-                        "bank-api-gateway",
-                        "bank-account-micro-service",
-                        "bank-transactions-micro-service",
-                        "bank-notificaion-micro-service"
+                    def repo = [
+                        "Eureka",
+                        "API-Gateway",
+                        "AccountMicroService",
+                        "TransactionsMicroService",
+                        "NotificationMicroService"
                     ]
 
                     services.each { svc ->
