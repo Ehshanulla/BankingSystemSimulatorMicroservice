@@ -58,26 +58,44 @@ pipeline {
             }
         }
 
-        stage('Push Images to DockerHub') {
-            steps {
-                script {
-                    def images = [
-                        "bank-eureka-server",
-                        "bank-api-gateway",
-                        "bank-account-micro-service",
-                        "bank-transactions-micro-service",
-                        "bank-notification-micro-service" // fixed typo
-                    ]
+stage('Push Images to DockerHub') {
+    steps {
+        withCredentials([usernamePassword(
+            credentialsId: 'docker-hub-creds',
+            usernameVariable: 'USER',
+            passwordVariable: 'PASS'
+        )]) {
+            script {
+                // Login again before pushing
+                bat """echo %PASS% | docker login -u %USER% --password-stdin"""
 
-                    images.each { img ->
-                        def imageFull = "${DOCKERHUB_USER}/${img}:${VERSION}"
-                        bat "docker push ${imageFull}"
-                    }
+                def images = [
+                    "bank-eureka-server",
+                    "bank-api-gateway",
+                    "bank-account-micro-service",
+                    "bank-transactions-micro-service",
+                    "bank-notification-micro-service"
+                ]
 
-                    bat "docker logout"
+                images.each { img ->
+                    def versioned = "${DOCKERHUB_USER}/${img}:${VERSION}"
+                    def latest = "${DOCKERHUB_USER}/${img}:latest"
+
+                    // Push versioned tag
+                    bat "docker push ${versioned}"
+
+                    // Tag as latest and push
+                    bat "docker tag ${versioned} ${latest}"
+                    bat "docker push ${latest}"
                 }
+
+                // Logout after pushing
+                bat "docker logout"
             }
         }
+    }
+}
+
     }
 
     post {
